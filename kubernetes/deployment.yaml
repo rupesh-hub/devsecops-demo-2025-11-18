@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: devsecops-demo
-          image: image_name
+          image: ghcr.io/rupesh-hub/devsecops-demo-2025-11-18:2841944
           # Image will be automatically updated by CI/CD pipeline
           imagePullPolicy: Always
           ports:
