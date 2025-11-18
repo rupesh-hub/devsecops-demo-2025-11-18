@@ -17,28 +17,21 @@ spec:
       containers:
         - name: devsecops-demo
           image: ghcr.io/rupesh-hub/devsecops-demo-2025-11-18:sha-892154a84cc2a3eb4906e3c3d07cd9f0b9d609a5
-          # Image will be automatically updated by CI/CD pipeline
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
-          resources:
-            limits:
-              cpu: "0.5"
-              memory: "512Mi"
-            requests:
-              cpu: "0.2"
-              memory: "256Mi"
+            - containerPort: 8181
           livenessProbe:
             httpGet:
               path: /
-              port: 80
+              port: 8181
             initialDelaySeconds: 30
             periodSeconds: 10
           readinessProbe:
             httpGet:
               path: /
-              port: 80
+              port: 8181
             initialDelaySeconds: 5
             periodSeconds: 5
+
       imagePullSecrets:
         - name: github-container-registry
