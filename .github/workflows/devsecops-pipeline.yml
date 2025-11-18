@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
     paths-ignore:
-      - 'kubernetes/deployment.yaml'  # Ignore changes to this file to prevent loops
+      - 'kubernetes/deployment.yaml'  # Prevent infinite workflow loop
   pull_request:
     branches: [ main ]
 
@@ -93,7 +93,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=sha,format=long
+            type=sha,format=long     # full SHA
             type=ref,event=branch
             latest
 
@@ -124,9 +124,9 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Set image tag output
+      - name: Set image tag output (FULL SHA)
         id: set_output
-        run: echo "image_tag=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
+        run: echo "image_tag=sha-${{ github.sha }}" >> $GITHUB_OUTPUT
 
   update-k8s:
     name: Update Kubernetes Deployment
@@ -134,7 +134,7 @@ jobs:
     needs: [ docker ]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     permissions:
-      contents: write   # IMPORTANT
+      contents: write
 
     steps:
       - name: Checkout code
@@ -154,7 +154,8 @@ jobs:
           REGISTRY: ghcr.io
         run: |
           NEW_IMAGE="${REGISTRY}/${GITHUB_REPOSITORY}:${IMAGE_TAG}"
-          
+
+          # Replace ONLY the image value, not indentation
           sed -i "s|\(image:\s*\).*|\1${NEW_IMAGE}|g" kubernetes/deployment.yaml
           
           echo "Updated deployment to use image: ${NEW_IMAGE}"
