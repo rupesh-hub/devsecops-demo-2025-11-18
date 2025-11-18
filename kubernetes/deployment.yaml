@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: devsecops
-          image: ghcr.io/rupesh-hub/devsecops-demo-2025-11-18:sha-892154a84cc2a3eb4906e3c3d07cd9f0b9d609a5
+          image: ghcr.io/rupesh-hub/devsecops-demo-2025-11-18:sha-b76caf31139d5c9ae3e72f84a419084ec30eaf55
           imagePullPolicy: Always
           ports:
             - containerPort: 8181
