@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  devsecops-demo:
+    container_name: devsecops-demo
+    image: rupesh1997/devsecops-demo:1.0.0
+    ports:
+      - "8181:8181"
+    networks:
+      - devsecops-demo-nw
+
+networks:
+  devsecops-demo-nw:
+    driver: bridge
