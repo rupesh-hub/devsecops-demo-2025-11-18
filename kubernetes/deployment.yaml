@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: devsecops-demo
+  name: devsecops
   labels:
-    app: devsecops-demo
+    app: devsecops
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: devsecops-demo
+      app: devsecops
   template:
     metadata:
       labels:
-        app: devsecops-demo
+        app: devsecops
     spec:
       containers:
-        - name: devsecops-demo
+        - name: devsecops
           image: ghcr.io/rupesh-hub/devsecops-demo-2025-11-18:sha-892154a84cc2a3eb4906e3c3d07cd9f0b9d609a5
           imagePullPolicy: Always
           ports:
